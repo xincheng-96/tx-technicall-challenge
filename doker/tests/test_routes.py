@@ -1,5 +1,4 @@
 from flask import Flask
-import json
 import pytest
 
 from doker.handlers.routes import configure_routes
@@ -12,6 +11,7 @@ def client():
 
     return client
 
+    #test status route, should return 200
 def test_status_route(client):
 
     url = '/status'
@@ -20,7 +20,8 @@ def test_status_route(client):
     assert response.get_data() == b'[{"status":"ok"}]\n'
     assert response.status_code == 200
 
-def test_encode_string(client):
+    #test encoding function with letters
+def test_encode_letter(client):
     app = Flask(__name__)
     configure_routes(app)
     client = app.test_client()
@@ -31,6 +32,7 @@ def test_encode_string(client):
     assert response.get_data() == b'FghCde'
     assert response.status_code == 200
 
+    #test encoding function with number
 def test_encode_number(client):
     app = Flask(__name__)
     configure_routes(app)
