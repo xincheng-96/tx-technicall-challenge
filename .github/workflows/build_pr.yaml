@@ -39,16 +39,13 @@ jobs:
         uses: actions/setup-python@v4.3.0
         with:
           python-version: 3.8
-
-      - name: print file path
-        run: ls
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
           pip3 install -r ./doker/requirements.txt
       - name: Test with pytest
         run: |
-          cd tests
+          cd ./doker/tests
           python3 -m pytest
 
   push:
