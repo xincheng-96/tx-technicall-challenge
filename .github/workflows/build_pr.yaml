@@ -2,7 +2,7 @@ name: CI-PR
 on:
   pull_request:
     paths:
-      - doker
+      - doker/**
   workflow_call:
     inputs:
         tag-rules:
