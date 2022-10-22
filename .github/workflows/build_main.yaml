@@ -1,8 +1,10 @@
 name: CI-Main
 on:
   push:
-    branches: [ "main" ]
-    paths: ["doker/**"]
+    branches: 
+      - main
+    paths: 
+      - 'doker/**'
   workflow_call:
     inputs:
         tag-rules:
