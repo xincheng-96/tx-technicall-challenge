@@ -33,6 +33,7 @@ override.tf.json
 !.vscode/extensions.json 
 .history
 .vs/
+.vs
 
 __pycache__
 *.py[cod]
