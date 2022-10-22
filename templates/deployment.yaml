@@ -48,8 +48,6 @@ spec:
           env:
             - name: Api__Authentication__ServiceAccountTokenClient__ClientSecret
               value: {{  .Values.secrets.serviceAccount.secret | quote }}  
-            #- name: MongoDB__DatabaseName
-            #  value: {{ include "technical-challenge.mongodb.databaseName" . | quote }}
 
             {{- $root := . }}
             {{- range $ref, $values := .Values.secrets }}
@@ -65,10 +63,8 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 {{- end }}
-    {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+        - name: dockerhub-auth
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
