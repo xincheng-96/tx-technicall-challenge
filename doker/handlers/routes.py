@@ -1,7 +1,6 @@
 from flask import jsonify
 import logging
 
-
 def configure_routes(app):
     logging.basicConfig(level=logging.INFO)
     logger = logging.getLogger(__name__)
@@ -30,7 +29,8 @@ def configure_routes(app):
                 return 48, 57
             else: 
                 return (None, None)
-        
+
+#         initialize output string
         out_string = ""
 
         for c in ini_string:
@@ -45,11 +45,11 @@ def configure_routes(app):
         logger.info('encoded string: %s',out_string)
         return out_string
 
+#     api for status
     @app.route("/status")
     def get_status():
         healthStatusReturnBody = [
             { 'status': 'ok'}
         ]
-
 
         return jsonify(healthStatusReturnBody)
