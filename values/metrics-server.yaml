@@ -1,0 +1,16 @@
+resources:
+  limits:
+    memory: 80Mi
+  requests:
+    cpu: 50m
+    memory: 30Mi
+ 
+affinity:
+  nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: k8s-node
+              operator: In
+              values:
+              - sandbox
