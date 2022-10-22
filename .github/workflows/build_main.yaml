@@ -21,27 +21,28 @@ env:
   IMAGE_NAME: technical-challenge
   REGISTRY: docker.io
 jobs:
-  #test:
-  #  runs-on: ubuntu-latest
-  #  defaults:
-  #    run:
-  #      working-directory: ./docker
-  
-  #  steps:
-  #  - name: Set up Python 3.8
-  #    uses: actions/setup-python@v4.3.0
-  #    with:
-  #      python-version: 3.8
-    
-  #  - name: Scaffold Project
-  #    working-directory: ./
-  #    run: |
-  #      python -m pip install --upgrade pip
-  #      pip install --user cookiecutter
-  #      cookiecutter gh:agconti/cookiecutter-django-rest --no-input
-  #  - name: unit test
-  build:
+  build-test:
     runs-on: ubuntu-latest
+  
+    steps:
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v4.3.0
+        with:
+          python-version: 3.8
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install -r ./doker/requirements.txt
+      - name: Test with pytest
+        run: |
+          cd ./doker/tests
+          python3 -m pytest
+
+  push:
+    runs-on: ubuntu-latest
+    needs: build-test
     steps:
 
       - name: Check Out Repo 

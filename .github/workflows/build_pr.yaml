@@ -1,13 +1,13 @@
 name: CI-PR-release
 on:
   push:
+    #branches:
+    #    ["*"]
+    tags:
+      - "v*.*.*"
+  pull_request:
     branches:
-        ["*"]
-  #  tags:
-  #    - "v*.*.*"
-  #pull_request:
-  #  branches:
-  #    - main
+      - main
   workflow_call:
     inputs:
         tag-rules:
