@@ -29,6 +29,7 @@ def configure_routes(app):
                 return 48, 57
             else: 
                 return (None, None)
+
 #         initialize output string
         out_string = ""
 
@@ -50,6 +51,5 @@ def configure_routes(app):
         healthStatusReturnBody = [
             { 'status': 'ok'}
         ]
-
 
         return jsonify(healthStatusReturnBody)

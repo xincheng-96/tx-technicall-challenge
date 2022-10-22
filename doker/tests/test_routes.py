@@ -3,6 +3,7 @@ import pytest
 
 from doker.handlers.routes import configure_routes
 
+# initialize app
 @pytest.fixture
 def client():
     app = Flask(__name__)
