@@ -30,7 +30,7 @@ def configure_routes(app):
                 return 48, 57
             else: 
                 return (None, None)
-        
+#         initialize output string
         out_string = ""
 
         for c in ini_string:
