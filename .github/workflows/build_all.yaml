@@ -1,0 +1,95 @@
+name: CI-All
+on:
+  push:
+    branches: [ "release" ]
+  workflow_call:
+    inputs:
+        tag-rules:
+            description: Use docker-metadata action to create tags from a key-value pair list in CSV format
+            required: false
+            type: string
+            default: |
+                type=ref,event=branch
+                type=ref,event=pr
+                type=semver,pattern={{version}}
+                type=semver,pattern={{major}}.{{minor}}
+
+permissions:
+  contents: read
+  packages: write # needed to push docker image to ghcr.io
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+  REGISTRY: ghcr.io
+jobs:
+  #test:
+  #  runs-on: ubuntu-latest
+  #  defaults:
+  #    run:
+  #      working-directory: ./docker
+  
+  #  steps:
+  #  - name: Set up Python 3.8
+  #    uses: actions/setup-python@v4.3.0
+  #    with:
+  #      python-version: 3.8
+    
+  #  - name: Scaffold Project
+  #    working-directory: ./
+  #    run: |
+  #      python -m pip install --upgrade pip
+  #      pip install --user cookiecutter
+  #      cookiecutter gh:agconti/cookiecutter-django-rest --no-input
+  #  - name: Unit test
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+      
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Login to GitHub Container Registory
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract Metadata for Image
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images:  ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+          tags: ${{ inputs.tag-rules }}
+
+      - name: Build and push to Github repo
+        if: github.event_name != 'pull_request'
+        id: docker_build_github
+        uses: docker/build-push-action@v3
+        with:
+          context:  ./docker
+          file:  ./docker/Dockerfile
+          builder: ${{ steps.buildx.outputs.name }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache
+          
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
