@@ -33,7 +33,7 @@ override.tf.json
 !.vscode/extensions.json 
 .history
 .vs/
-.vs
+tx-tech-challenge/.vs
 
 __pycache__
 *.py[cod]
