@@ -1,11 +1,13 @@
 name: CI-PR-release
 on:
   push:
-    tags:
-      - "v*.*.*"
-  pull_request:
     branches:
-      - master
+        ["*"]
+  #  tags:
+  #    - "v*.*.*"
+  #pull_request:
+  #  branches:
+  #    - main
   workflow_call:
     inputs:
         tag-rules:
@@ -26,27 +28,31 @@ env:
   IMAGE_NAME: ${{ github.repository }}
   REGISTRY: ghcr.io
 jobs:
-  #test:
-  #  runs-on: ubuntu-latest
-  #  defaults:
-  #    run:
-  #      working-directory: ./docker
-  
-  #  steps:
-  #  - name: Set up Python 3.8
-  #    uses: actions/setup-python@v4.3.0
-  #    with:
-  #      python-version: 3.8
-    
-  #  - name: Scaffold Project
-  #    working-directory: ./
-  #    run: |
-  #      python -m pip install --upgrade pip
-  #      pip install --user cookiecutter
-  #      cookiecutter gh:agconti/cookiecutter-django-rest --no-input
-  #  - name: Unit test
 
-  build:
+  build-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./doker
+  
+    steps:
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v4.3.0
+      with:
+        python-version: 3.8
+
+    - name: Install Python dependencies
+      run: |
+        sudo apt install -y $(grep -o ^[^#][[:alnum:]-]* "packages.list")
+        python3 -m pip install --upgrade pip
+        pip3 install -r requirements.txt
+
+    - name: Test with pytest
+      run: |
+        cd tests
+        python3 -m pytest
+
+  push:
     runs-on: ubuntu-latest
     steps:
 
