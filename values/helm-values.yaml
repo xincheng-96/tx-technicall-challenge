@@ -1,17 +1,12 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 fullnameOverride: technical-challenge
-replicaCount: 1
+replicaCount: 2
 image:
-  repository: docker.io/xincheng-9611/technical-challenge 
+  repository: docker.io/xincheng9611/technical-challenge 
   tag: main
   pullPolicy: IfNotPresent
-#imageCredentials:
-#  registry: docker.io
-#  username: xincheng-9611
-#  password: dckr_pat_F7nQ56q0vmTwi1QaUEUkdbkA3Gc
-#  name: dockerhub-auth
-#kubectl create secret docker-registry dockerhub-auth --docker-server=docker.io --docker-username=xincheng-9611 --docker-password=dckr_pat_zCN0_8WauCKNKLpMEQLm_cexV4w
+
 imagePullSecrets:
   - name: dockerhub-auth
   # Optionally specify an array of imagePullSecrets.

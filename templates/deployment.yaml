@@ -63,8 +63,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
 {{- end }}
+    {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        - name: dockerhub-auth
+{{ toYaml . | indent 8 }}
+    {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
