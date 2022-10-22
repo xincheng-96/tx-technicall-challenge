@@ -1,11 +1,7 @@
-name: CI-PR-release
+name: CI-PR
 on:
-  push:
-    #branches:
-    #    ["*"]
-    tags:
-      - "v*.*.*"
   pull_request:
+    types: [opened, reopened]
     branches:
       - main
   workflow_call:
