@@ -1,7 +1,11 @@
-name: CI-All
+name: CI-PR-release
 on:
   push:
-    branches: [ "release" ]
+    tags:
+      - "v*.*.*"
+  pull_request:
+    branches:
+      - master
   workflow_call:
     inputs:
         tag-rules:
