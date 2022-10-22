@@ -31,9 +31,6 @@ jobs:
 
   build-test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./doker
   
     steps:
     - name: Set up Python 3.8
