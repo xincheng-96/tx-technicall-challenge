@@ -51,7 +51,7 @@ jobs:
     #get aws credential file from secret 
     - name: Get AWS Credentials
       run: |
-        mkdir ~/.aws | touch ~/.aws/creds |
+        mkdir ~/.aws | touch ~/.aws/creds
     - name: print
       run: ls 
     - name: add
