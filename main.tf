@@ -69,13 +69,13 @@ provider "helm" {
 # The S3 repo has been manually created in AWS
 # ---------------------------------------------------------------------------------------------------------------------
 
-#terraform {
- # backend "s3" {
-  #  region  = "eu-central-1"
-   # bucket  = "tfstate-sandbox"
-    #key     = "techchallenge/terraform_state"
-#    shared_credentials_file = ".aws/creds"
- #   profile                 = "AWSAdministratorAccess"
-  #  encrypt = "true"
-#  }
-#}
+terraform {
+  backend "s3" {
+    region  = "eu-central-1"
+    bucket  = "tfstate-sandbox"
+    key     = "techchallenge/terraform_state"
+    shared_credentials_file = ".aws/creds"
+    profile                 = "AWSAdministratorAccess"
+    encrypt = "true"
+  }
+}
