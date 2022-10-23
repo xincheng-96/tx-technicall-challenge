@@ -47,10 +47,19 @@ jobs:
     # Checks that all Terraform configuration files are valid
     - name: Terraform Validate
       run: terraform validate
+    
+    #get aws credential file from secret 
+    - name: Get AWS Credentials
+      run: |
+         echo ${{ secrets.AWS_TOKEN }} > .aws/creds
+
+    - name: list 
+      run: |
+         ls
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -var-file variable.tfvars -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
