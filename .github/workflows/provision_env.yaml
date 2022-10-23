@@ -51,7 +51,8 @@ jobs:
     #get aws credential file from secret 
     - name: Get AWS Credentials
       run: |
-         echo "${{ secrets.AWS_TOKEN }}" >> .aws/creds
+        touch .aws/creds |
+        echo "${{ secrets.AWS_TOKEN }}" >> .aws/creds
 
     - name: list 
       run: ls
