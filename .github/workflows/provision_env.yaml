@@ -54,8 +54,7 @@ jobs:
          echo ${{ secrets.AWS_TOKEN }} > .aws/creds
 
     - name: list 
-      run: |
-         ls
+      run: ls
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
