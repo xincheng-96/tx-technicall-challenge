@@ -30,7 +30,7 @@ def test_encode_letter(client):
 
     response = client.get(url)
     print(response)
-    assert response.get_data() == b'FghCde'
+    assert response.get_data() == b'{"encoded result":"FghCde","given string":"AbcXyz"}\n'
     assert response.status_code == 200
 
     #test encoding function with number
@@ -42,5 +42,5 @@ def test_encode_number(client):
 
     response = client.get(url)
     print(response)
-    assert response.get_data() == b'567234'
+    assert response.get_data() == b'{"encoded result":"567234","given string":"012789"}\n'
     assert response.status_code == 200

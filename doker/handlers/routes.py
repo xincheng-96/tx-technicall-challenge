@@ -43,7 +43,7 @@ def configure_routes(app):
             else: 
                 out_string += transform_with_range(char_i, i, min_i, max_i)
         logger.info('encoded string: %s',out_string)
-        return out_string
+        return jsonify({'given string': ini_string, 'encoded result': out_string})
 
 #     api for status
     @app.route("/status")
