@@ -1,9 +1,10 @@
 name: CI-Main
 on:
   push:
-    branches: 
+    branches:
       - main
-    paths: 
+      - sonar-scan
+    paths:
       - 'doker/**'
   workflow_call:
     inputs:
@@ -24,11 +25,24 @@ env:
   IMAGE_NAME: technical-challenge
   REGISTRY: docker.io
 jobs:
+  sonar-scan:
+    runs-on: sonarsource/sonar-scanner-cli
+
+    steps:
+      - name: SCM Checkout
+        uses: actions/checkout@v2
+      - name: Sonar Scan
+        uses: tradeshift/actions-sonarqube@v2
+        with:
+          # This should be put into GH Secrets, but I don't have access
+          token: f918e71934e468085c69b9615da22ce4d11f9f9e
+          host: https://sonar.alatvala.fi
+
   build-test:
     runs-on: ubuntu-latest
-  
+
     steps:
-      - name: Check Out Repo 
+      - name: Check Out Repo
         uses: actions/checkout@v2
       - name: Set up Python 3.8
         uses: actions/setup-python@v4.3.0
@@ -48,9 +62,9 @@ jobs:
     needs: build-test
     steps:
 
-      - name: Check Out Repo 
+      - name: Check Out Repo
         uses: actions/checkout@v2
-      
+
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2

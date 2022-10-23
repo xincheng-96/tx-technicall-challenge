@@ -1,7 +1,7 @@
 variable "region" {
   description = "Region that the instances will be created"
   type        = string
-  default     = "eu-central-1"
+  default     = "eu-north-1"
 }
 
 variable "environment" {
@@ -16,7 +16,7 @@ variable "github_repo" {
 }
 
 terraform {
-  required_version = "1.0.1"
+  required_version = "1.3.3"
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -34,9 +34,9 @@ terraform {
 }
 
 provider "aws" {
-  region                  = "eu-central-1"
-  shared_credentials_file = ".aws/creds"
-  profile                 = "AWSAdministratorAccess"
+  region                  = "eu-north-1"
+  shared_credentials_file = "~/.aws/credentials"
+  profile                 = "default"
   default_tags {
     tags = {
       Landscape   = var.environment
@@ -71,11 +71,11 @@ provider "helm" {
 
 terraform {
   backend "s3" {
-    region  = "eu-central-1"
-    bucket  = "tfstate-sandbox"
+    region  = "eu-north-1"
+    bucket  = "alatvala-xcheng-tfstate"
     key     = "techchallenge/terraform_state"
-    shared_credentials_file = ".aws/creds"
-    profile                 = "AWSAdministratorAccess"
+    shared_credentials_file = "~/.aws/credentials"
+    profile                 = "default"
     encrypt = "true"
   }
 }
