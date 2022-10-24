@@ -1,0 +1,63 @@
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+fullnameOverride: technical-challenge
+replicaCount: 2
+image:
+  repository: docker.io/xincheng9611/technical-challenge 
+  tag: main
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: dockerhub-auth
+  # Optionally specify an array of imagePullSecrets.
+  # Secrets must be manually created in the namespace.
+  # ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+  #
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 5000
+  name: sandbox
+ingress:
+  enabled: false
+
+probes:
+  enabled: false
+  livenessProbe:
+    httpGet:
+      path: /health/live
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 5
+  readinessProbe:
+    httpGet:
+      path: /health/ready
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 5
+
+extraEnv: {}
+
+secrets:
+  serviceAccount:
+    clientId: technical-challenge
+  # Optionally specify a set of secret objects whose values
+  # will be injected as environment variables by default.
+  # You should add this section to a file like secrets.yaml
+  # that is explicitly NOT committed to source code control
+  # and then include it as part of your helm install step.
+  # ref: https://kubernetes.io/docs/concepts/configuration/secret/
+
+# resources:
+#   limits:
+#     cpu: 100m
+#     memory: 500Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

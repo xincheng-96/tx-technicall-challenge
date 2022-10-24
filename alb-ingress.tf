@@ -232,7 +232,7 @@ resource "kubernetes_ingress" "app_ingress" {
   metadata {
     name = "sandbox"
 
-    namespace = "kube-system"
+    namespace = "default"
     labels = {
       app = "sandbox"
     }
@@ -242,7 +242,7 @@ resource "kubernetes_ingress" "app_ingress" {
       "alb.ingress.kubernetes.io/target-type"             = "ip"
       "alb.ingress.kubernetes.io/target-group-attributes" = "load_balancing.algorithm.type=least_outstanding_requests"
       "alb.ingress.kubernetes.io/healthcheck-path"        = "/checkalive"
-      "alb.ingress.kubernetes.io/listen-ports"            = "[{\"HTTP\": 80}"
+      "alb.ingress.kubernetes.io/listen-ports"            = "[{\"HTTP\": 80}]"
     }
   }
 
