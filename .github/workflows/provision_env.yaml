@@ -62,7 +62,7 @@ jobs:
       run: terraform plan -var-file variable.tfvars -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
-      #this is not tested
+      # terraform apply is not tested, because need aws credentials for it. Please add your aws credentials into repo action secret (by update AWS_TOKEN secret), and uncomment following steps
     #- name: Terraform Apply
     #  if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
     #  run: terraform apply -var-file variable.tfvars -auto-approve -input=false
