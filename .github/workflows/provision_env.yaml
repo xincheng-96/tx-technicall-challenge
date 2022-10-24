@@ -45,6 +45,7 @@ jobs:
       run: |
         echo "${{ secrets.AWS_TOKEN }}" > .aws/creds
 
+    # This may fail due to bucket not created
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
@@ -52,7 +53,7 @@ jobs:
     # Checks that all Terraform configuration files are valid
     - name: Terraform Validate
       run: terraform validate
-
+      
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -var-file variable.tfvars -input=false
@@ -62,3 +63,31 @@ jobs:
     #- name: Terraform Apply
     #  if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
     #  run: terraform apply -var-file variable.tfvars -auto-approve -input=false
+
+
+
+    #below only tested manually, not tested in the pipeline. Further modifications are needed 
+    #- name: Configure AWS Credentials
+    #  if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+    #  uses: aws-actions/configure-aws-credentials@v1
+    #  with:
+    #    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #    aws-region: eu-central-1
+    
+    #- name: Get EKS kubeconfig file
+    #  if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+    #  run: aws eks --region eu-central-1 update-kubeconfig --name sandbox-sandbox
+
+    ## Create secret in cluster for retriving docker image from docker hub
+    #- name: Creates a kubernetes secret on EKS cluster to pull images
+    #  if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+    #  uses: actions-hub/kubectl@master
+    #  env:
+    #    KUBE_CONFIG: .kube/config
+    #  with:
+    #    args: kubectl create secret docker-registry dockerhub-auth --docker-server=docker.io --docker-username=${{ secrets.DOCKER_HUB_USERNAME }} --docker-password=${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    #- name: helm install
+    #  if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
+    #  run: helm install technical-challenge ./helm -f ./values/helm-values.yaml
