@@ -82,8 +82,8 @@ jobs:
         id: docker_build_github
         uses: docker/build-push-action@v3
         with:
-          context:  ./doker/tech-challenge/
-          file:  ./doker/tech-challenge/Dockerfile
+          context:  ./doker
+          file:  ./doker/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
