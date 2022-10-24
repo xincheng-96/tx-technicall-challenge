@@ -11,6 +11,10 @@ on:
     paths:
       - '**/*.tf'
       - '**/*.tfvars'
+  pull_request:
+    paths:
+      - '**/*.tf'
+      - '**/*.tfvars' 
 
 permissions:
   contents: read
