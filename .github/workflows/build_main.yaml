@@ -37,10 +37,10 @@ jobs:
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
-          pip3 install -r ./doker/requirements.txt
+          pip3 install -r ./doker/tech-challenge/requirements.txt
       - name: Test with pytest
         run: |
-          cd ./doker/tests
+          cd ./doker/tech-challenge
           python3 -m pytest
 
   push:
@@ -82,7 +82,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context:  ./doker
-          file:  ./doker/Dockerfile
+          file:  ./doker/tech-challenge/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           tags: ${{ steps.meta.outputs.tags }}
