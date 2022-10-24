@@ -12,7 +12,7 @@ on:
             required: false
             type: string
             default: |
-                type=ref,event=branch
+                type=ref,event=branch-{{BUILD_ID}}
                 type=ref,event=pr
                 type=semver,pattern={{version}}
                 type=semver,pattern={{major}}.{{minor}}
