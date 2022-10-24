@@ -72,7 +72,7 @@ provider "helm" {
 terraform {
   backend "s3" {
     region  = "eu-central-1"
-    bucket  = "tfstate-sandbox-xin"
+    bucket  = "tfstate-sandbox"
     key     = "techchallenge/terraform_state"
     shared_credentials_file = ".aws/creds"
     profile                 = "AWSAdministratorAccess"
