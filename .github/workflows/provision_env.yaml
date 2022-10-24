@@ -7,14 +7,14 @@ name: 'provision_env_terraform'
 
 on:
   push:
-    branches: [ "main" ]
-    paths:
-      - '**/*.tf'
-      - '**/*.tfvars'
-  pull_request:
-    paths:
-      - '**/*.tf'
-      - '**/*.tfvars'
+  #  branches: [ "main" ]
+  #  paths:
+  #    - '**/*.tf'
+  #    - '**/*.tfvars'
+  #pull_request:
+  #  paths:
+  #    - '**/*.tf'
+  #    - '**/*.tfvars'
 
 permissions:
   contents: read
@@ -66,3 +66,17 @@ jobs:
     #- name: Terraform Apply
     #  if: github.ref == 'refs/heads/"main"' && github.event_name == 'push'
     #  run: terraform apply -var-file variable.tfvars -auto-approve -input=false
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: eu-central-1
+    
+    - name: Get EKS kubeconfig file
+      run: aws eks --region eu-central-1 update-kubeconfig --name sandbox-sandbox
+
+    - uses: actions-hub/kubectl@master
+      with:
+        args: get pods
