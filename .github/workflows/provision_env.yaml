@@ -80,5 +80,13 @@ jobs:
       run: aws eks --region eu-central-1 update-kubeconfig --name sandbox-sandbox
 
     - uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: /home/runner/.kube/config
+      with: 
+        args: get pods
+
+    - uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: /home/runner/.kube/config
       with:
         args: kubectl create secret docker-registry dockerhub-auth --docker-server=docker.io --docker-username=${{ secrets.DOCKER_HUB_USERNAME }} --docker-password=${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
