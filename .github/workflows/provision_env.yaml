@@ -16,6 +16,7 @@ on:
   #    - '**/*.tf'
   #    - '**/*.tfvars'
 
+
 permissions:
   contents: read
 
